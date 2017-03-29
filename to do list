@@ -1,0 +1,29 @@
+//To DO:
+
+//models
+accesory---platform
+game---platform
+game---region---platform
+    //p2
+    game---user
+    user_dev
+
+//urls
+games
+platforms
+accesories
+accesory-by-platform
+game-by-region
+game-by-platform
+login
+logout
+    //p2
+    game-ratings
+
+//views
+games
+platforms
+regions
+accesory
+
+//others
