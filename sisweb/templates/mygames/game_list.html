@@ -1,0 +1,14 @@
+{% extends "mygames/base.html" %}
+{% block content %}  
+<h1>  
+    Games
+    {% if user %}(<a href="">add</a>){% endif %}
+</h1>  
+<ul>  
+    {% for game in latest_game_list %}
+        <li><a href="{% url 'mygames:game_detail' game.id %}">
+            {{ game.name }}</a></li>
+    {% empty %}<li>Sorry, no games registered yet.</li>
+    {% endfor %}
+</ul>  
+{% endblock %}  
