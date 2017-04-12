@@ -1,13 +1,5 @@
 //To DO:
 
-//models
-accesory---platform
-game---platform
-game---region---platform
-    //p2
-    game---user
-    user_dev
-
 //urls
 games
 platforms
