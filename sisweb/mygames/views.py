@@ -11,14 +11,14 @@ def index(request):
 def homepage(request):
     return render_to_response("homepage.html", {
         'title': 'myGames',
-        'content': 'A shitty game thing web app',
+        'content': 'Information about Video Games',
         'author': 'Anonimous'
     }, )
 
 
 class GameDetail(DetailView):
     model = Game
-    template_name = 'mygames/game_detail.html'
+    template_name = 'game_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super(GameDetail, self).get_context_data(**kwargs)

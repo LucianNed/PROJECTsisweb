@@ -1,13 +1,14 @@
-{% extends "mygames/base.html" %}
-{% block content %}  
-<h1>  
-    {{ game.name }}
+{% extends "base.html" %}
+{% block content %}
+<h1>
+    {{ game.game_name }}
 </h1>
-<h2>Address:</h2>  
-<p>  
-    {{ game.developer }}, {{ game.publisher }} <br/>
+<p>
+    Genre: {{ game.genre }} <br/>
+    Developer: {{ game.developer }} <br/>
+    Publisher: {{ game.publisher }} <br/>
 </p>
 
-{% endblock %}  
-{% block footer %}  
+{% endblock %}
+{% block footer %}
 {% endblock %}
