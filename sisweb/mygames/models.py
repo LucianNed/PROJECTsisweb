@@ -16,7 +16,7 @@ class Game(models.Model):
     date = models.DateField(default=date.today)
 
     def __unicode__(self):
-        return u"%s" % self.game_name
+        return self.game_name
     def get_absolute_url(self):
         return reverse('mygames:game_detail', kwargs={'pk': self.pk})
 
@@ -28,7 +28,8 @@ class Platform(models.Model):
     games = models.ManyToManyField(Game)
 
     def __unicode__(self):
-        return u"%s" % self.platform_name
+        return self.platform_name
+
     def get_absolute_url(self):
         return  reverse('mygames:platform_detail', kwargs={'pk': self.pk})
 
@@ -39,15 +40,24 @@ class Region(models.Model):
     STANDARD_CHOICES = ((1, 'PAL'),(2, 'NTSC-U'),(3, 'NTSC-J'),(4, 'NTSC-C'))
     format = models.PositiveSmallIntegerField('format ', blank=False, default=1, choices=STANDARD_CHOICES)
 
+    def __unicode__(self):
+        return self.region_name
+
 
 class Accesory(models.Model):
     name = models.TextField()
     platform = models.ForeignKey('Platform', on_delete=models.CASCADE)
     genre = models.TextField() #game genre
 
+    def __unicode__(self):
+        return self.name
+
 
 class Release(Game, Platform, Region):
     release_date = models.DateField(default=date.today())
+
+    def __unicode__(self):
+        return self.release_date
 
 
 #2na practica
@@ -56,4 +66,4 @@ class UserRating(Game, User):
     rating = models.PositiveSmallIntegerField('Rating (stars)', blank=False, default=3, choices=RATING_CHOICES)
 
     def __unicode__(self):
-        return u"%d" % self.rating
+        return self.rating

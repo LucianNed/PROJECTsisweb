@@ -11,7 +11,7 @@ urlpatterns = [
         ListView.as_view(
             queryset=Game.objects.filter(date__lte=timezone.now()).order_by('date')[:5],
             context_object_name='latest_games_list',
-            template_name='mygames/game_list.html'),
+            template_name='game_list.html'),
             name='game_list'),
     #games details, /mygames/games/1
     url(r'^games/(?P<pk>\d+)/$',
