@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>
+    {{ platform.platform_name }}
+</h1>
+<p>
+    manufacturer: {{ platform.manufacturer }} <br/>
+</p>
+<h3>Games
+(<a href="{% url 'mygames:platform_games' platform.platform_id %}">view</a>)
+</h3>
+<h3>Accessories
+(<a href="{% url 'mygames:platform_accessories' platform.platform_id  %}">view</a>)
+</h3>
+
+{% endblock %}
+{% block footer %}
+{% endblock %}

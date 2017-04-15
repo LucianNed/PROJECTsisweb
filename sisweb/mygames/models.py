@@ -7,7 +7,7 @@ from datetime import date
 # Create your models here.
 
 class Game(models.Model):
-    game_id = models.AutoField(primary_key=True, default=1)
+    game_id = models.IntegerField(primary_key=True, default=1)
     game_name = models.TextField(blank=True)
     genre = models.TextField()
     multiplayer = models.IntegerField(default=0)
@@ -22,7 +22,7 @@ class Game(models.Model):
 
 
 class Platform(models.Model):
-    platform_id = models.AutoField(primary_key=True, default=1)
+    platform_id = models.IntegerField(primary_key=True, default=1)
     platform_name = models.TextField(blank=True)
     manufacturer = models.TextField(blank=True)
     games = models.ManyToManyField(Game)
@@ -35,7 +35,7 @@ class Platform(models.Model):
 
 
 class Region(models.Model):
-    region_id = models.AutoField(primary_key=True, default=1)
+    region_id = models.IntegerField(primary_key=True, default=1)
     region_name = models.TextField(blank=True)
     STANDARD_CHOICES = ((1, 'PAL'),(2, 'NTSC-U'),(3, 'NTSC-J'),(4, 'NTSC-C'))
     format = models.PositiveSmallIntegerField('format ', blank=False, default=1, choices=STANDARD_CHOICES)
