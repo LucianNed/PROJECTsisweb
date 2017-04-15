@@ -3,6 +3,10 @@ from django.shortcuts import render
 # Create your views here.
 from django.views.generic import DetailView
 from models import Game, Platform, Accesory
+from django.http import HttpResponse
+
+def index(request):
+    return HttpResponse("<h2>HOLAAAAAAA!!!!!</h2>")
 
 class GameDetail(DetailView):
     model = Game

@@ -1,13 +1,9 @@
-
-
-
-
-
 from django.conf.urls import url
 from django.utils import timezone
 from django.views.generic import DetailView, ListView, UpdateView
 from models import Game, Platform, Region, Accesory
 from views import GameDetail, PlatformDetail
+
 
 urlpatterns = [
     #List 5 newest games: /mygames/
