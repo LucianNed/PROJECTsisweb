@@ -1,16 +1,32 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>
+<h2>
     {{ platform.platform_name }}
-</h1>
+</h2>
 <p>
     manufacturer: {{ platform.manufacturer }} <br/>
 </p>
 <h3>Games
-(<a href="{% url 'mygames:platform_games' platform.platform_id %}">view</a>)
+<ul>
+    {% for game in P_GAMES %}
+        <li><a href="{% url 'mygames:game_detail' game.game_id %}">
+            {{ game.game_name }}</a>
+            <p>developer: {{ game.developer }}</p>
+        </li>
+    {% empty %}<li>Sorry, no games registered for this platform yet.</li>
+    {% endfor %}
+</ul>
 </h3>
 <h3>Accessories
-(<a href="{% url 'mygames:platform_accessories' platform.platform_id  %}">view</a>)
+<ul>
+    {% for acc in P_ACCESSORIES %}
+        <li><a href="{% url 'mygames:accesory_detail' acc.id %}">
+            {{ acc.name }}</a>
+        </li>
+    {% empty %}<li>Sorry, no accesory registered for this platform yet.</li>
+    {% endfor %}
+</ul>
+
 </h3>
 
 {% endblock %}

@@ -1,9 +1,14 @@
-#header
+#head
 {
+    background-color: #607D8B;
+    display: block;
+    height: 10em;
+    color: white;
     margin: 0;
     padding: 10px;
     text-align: right;
 }
+
 #content
 {
     margin-left: 190px;

@@ -1,9 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>
+<h2>
     Platforms
-    {% if user %}(<a href="">add</a>){% endif %}
-</h1>
+</h2>
 <ul>
     {% for platform in platform_list %}
         <li><a href="{% url 'mygames:platform_detail' platform.platform_id %}">
