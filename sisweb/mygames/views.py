@@ -1,9 +1,11 @@
 # Create your views here.
-from django.contrib.auth.models import User
-from django.shortcuts import render, render_to_response
+from django.http import HttpResponseRedirect
+from django.shortcuts import render_to_response, render
+from django.template import RequestContext
 from django.views.generic import DetailView
 from models import Game, Platform, Accesory, Region
-from django.http import HttpResponse, Http404
+from forms import *
+
 
 def homepage(request):
     return render_to_response("base.html", {
@@ -11,6 +13,20 @@ def homepage(request):
         'content': 'Information about Video Games',
         'author': 'Anonimous'
     }, )
+
+
+def registerUser(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = User.objects.create_user(username=form.cleaned_data['username'],
+                                            password=form.cleaned_data['password1'],
+                                            email=form.cleaned_data['email'])
+
+            return HttpResponseRedirect('/mygames/')
+    else:
+        form = RegisterForm()
+    return render_to_response('registration/register.html', {'form': form}, RequestContext(request))
 
 
 class GameDetail(DetailView):
@@ -40,3 +56,5 @@ class AccesoryDetail(DetailView):
     def get_context_data(self, **kwargs):
         context = super(AccesoryDetail, self).get_context_data(**kwargs)
         return context
+
+

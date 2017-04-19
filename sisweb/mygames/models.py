@@ -13,10 +13,10 @@ class Game(models.Model):
     multiplayer = models.IntegerField(default=0)
     developer = models.TextField()
     publisher = models.TextField()
-    date = models.DateField(default=date.today)
 
     def __unicode__(self):
         return self.game_name
+
     def get_absolute_url(self):
         return reverse('mygames:game_detail', kwargs={'pk': self.pk})
 
@@ -38,7 +38,7 @@ class Region(models.Model):
     region_id = models.IntegerField(primary_key=True, default=1)
     region_name = models.TextField(blank=True)
     STANDARD_CHOICES = ((1, 'PAL'),(2, 'NTSC-U'),(3, 'NTSC-J'),(4, 'NTSC-C'))
-    format = models.PositiveSmallIntegerField('format ', blank=False, default=1, choices=STANDARD_CHOICES)
+    tv_format = models.PositiveSmallIntegerField('format ', blank=False, default=1, choices=STANDARD_CHOICES)
 
     def __unicode__(self):
         return self.region_name
@@ -61,7 +61,8 @@ class Release(Game, Platform, Region):
 
 
 #2na practica
-class UserRating(Game, User):
+class UserRating(User):
+    game = models.ForeignKey('Game', on_delete=models.CASCADE)
     RATING_CHOICES = ((0, 'zero'), (1, 'one'), (2, 'two'), (3, 'three'), (4, 'four'), (5, 'five'))
     rating = models.PositiveSmallIntegerField('Rating (stars)', blank=False, default=3, choices=RATING_CHOICES)
 

@@ -1,7 +1,6 @@
 from django.conf.urls import url
-from django.utils import timezone
-from django.views.generic import DetailView, ListView, UpdateView
-from models import Game, Platform, Region, Accesory
+from django.views.generic import ListView
+from models import Game, Platform, Region
 from views import GameDetail, PlatformDetail, AccesoryDetail
 
 urlpatterns = [
