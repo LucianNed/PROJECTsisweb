@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response, render
 from django.template import RequestContext
 from django.views.generic import DetailView
-from models import Game, Platform, Accesory, Region
+from models import Game, Platform, Accesory, Region, Release
 from forms import *
 
 
@@ -63,4 +63,12 @@ class RegionDetail(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(RegionDetail, self).get_context_data(**kwargs)
+        return context
+
+class ReleaseDetail(DetailView):
+    model = Release
+    template_name = 'release_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ReleaseDetail, self).get_context_data(**kwargs)
         return context

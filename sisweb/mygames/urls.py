@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.views.generic import ListView
 from models import Game, Platform, Region
-from views import GameDetail, PlatformDetail, AccesoryDetail, RegionDetail
+from views import GameDetail, PlatformDetail, AccesoryDetail, RegionDetail, ReleaseDetail
 
 urlpatterns = [
     #List 5 newest games: /mygames/
@@ -51,6 +51,11 @@ urlpatterns = [
         RegionDetail.as_view(),
         name='region_detail'
         ),
+
+    # releases details /mygames/releases/1/games
+    url(r'^releases/(?P<pk>\d+)/$',
+        ReleaseDetail.as_view(),
+        name='release_detail'),
 
     #to be contineud
 
