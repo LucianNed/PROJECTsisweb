@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.views.generic import ListView
 from models import Game, Platform, Region
-from views import GameDetail, PlatformDetail, AccesoryDetail
+from views import GameDetail, PlatformDetail, AccesoryDetail, RegionDetail
 
 urlpatterns = [
     #List 5 newest games: /mygames/
@@ -36,6 +36,21 @@ urlpatterns = [
     url(r'^accessories/(?P<pk>\d+)/$',
         AccesoryDetail.as_view(),
            name = 'accesory_detail'),
+
+    # list 5 platforms: /mygames/regions/
+    url(r'^regions/$',
+        ListView.as_view(
+            queryset=Region.objects.all,
+            context_object_name='region_list',
+            template_name='region_list.html'),
+            name='region_all',
+        ),
+
+    # platform details, /mygames/regions/1
+    url(r'^regions/(?P<pk>\d+)/$',
+        RegionDetail.as_view(),
+        name='region_detail'
+        ),
 
     #to be contineud
 

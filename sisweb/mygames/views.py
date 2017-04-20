@@ -48,7 +48,6 @@ class PlatformDetail(DetailView):
         context['P_ACCESSORIES'] = Accesory.objects.filter(platform=self.kwargs.get('pk'))
         return context
 
-
 class AccesoryDetail(DetailView):
     model = Accesory
     template_name = 'accesory_detail.html'
@@ -58,3 +57,10 @@ class AccesoryDetail(DetailView):
         return context
 
 
+class RegionDetail(DetailView):
+    model = Region
+    template_name = 'region_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(RegionDetail, self).get_context_data(**kwargs)
+        return context

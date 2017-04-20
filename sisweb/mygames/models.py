@@ -31,7 +31,7 @@ class Platform(models.Model):
         return self.platform_name
 
     def get_absolute_url(self):
-        return  reverse('mygames:platform_detail', kwargs={'pk': self.pk})
+        return reverse('mygames:platform_detail', kwargs={'pk': self.pk})
 
 
 class Region(models.Model):
@@ -43,6 +43,9 @@ class Region(models.Model):
     def __unicode__(self):
         return self.region_name
 
+    def get_absolute_url(self):
+        return reverse('mygames:region', kwargs={'pk': self.pk})
+
 
 class Accesory(models.Model):
     name = models.TextField()
@@ -53,8 +56,12 @@ class Accesory(models.Model):
         return self.name
 
 
-class Release(Game, Platform, Region):
+class Release(models.Model):
+    release_id = models.IntegerField(primary_key=True, default=1)
     release_date = models.DateField(default=date.today())
+    game = models.ForeignKey('Game', on_delete=models.CASCADE)
+    platform = models.ForeignKey('Platform', on_delete=models.CASCADE)
+    region = models.ForeignKey('Region', on_delete=models.CASCADE)
 
     def __unicode__(self):
         return self.release_date

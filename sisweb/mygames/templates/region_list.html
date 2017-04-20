@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>
+    Regions
+</h2>
+<ul>
+    {% for region in region_list %}
+        <li><a href="{% url 'mygames:region_detail' region.region_id %}">
+            {{ region.region_name }}</a></li>
+    {% empty %}<li>Sorry, no regions registered yet.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
