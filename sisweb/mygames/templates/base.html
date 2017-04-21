@@ -18,7 +18,12 @@
 </div>
 <div id="content">
     {% block content %}
-        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+    <div style="margin-top: 10px;">
+        {% if user.is_anonymous %}
+            {{ info }}
+        {% endif %}
+    </div>
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
     {% endblock %}
 </div>
 <div id="footer">{% block footer %}{% endblock %}</div>

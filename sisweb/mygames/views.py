@@ -2,19 +2,21 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response, render
 from django.template import RequestContext
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import DetailView
 from models import Game, Platform, Accesory, Region, Release
+from django.contrib.auth import authenticate
 from forms import *
 
 
 def homepage(request):
-    return render_to_response("base.html", {
-        'title': 'myGames',
-        'content': 'Information about Video Games',
-        'author': 'Anonimous'
-    }, )
+
+    return render(request, "base.html", {
+        'info': 'Information about Video Games',
+        'user': request.user }, )
 
 
+@csrf_exempt
 def registerUser(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
