@@ -1,10 +1,11 @@
 # Create your views here.
-from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response, render
+from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import render_to_response, render, get_object_or_404
 from django.template import RequestContext
+from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import DetailView
-from models import Game, Platform, Accesory, Region, Release
+from models import Game, Platform, Accesory, Region, Release, GameRating
 from django.contrib.auth import authenticate
 from forms import *
 
@@ -31,12 +32,26 @@ def registerUser(request):
     return render_to_response('registration/register.html', {'form': form}, RequestContext(request))
 
 
+def rate(request, pk):
+    gam = get_object_or_404(Game, pk=pk)
+    user_r = request.user
+    game_rating = GameRating(
+        game=gam,
+        user=user_r,
+        rating=request.POST['rating'])
+    game_rating.save()
+    return HttpResponse("OK")
+    # return HttpResponseRedirect('/mygames:/')
+
+
+
 class GameDetail(DetailView):
     model = Game
     template_name = 'game_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super(GameDetail, self).get_context_data(**kwargs)
+        context['RATING_CHOICES'] = GameRating.RATING_CHOICES
         return context
 
 

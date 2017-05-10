@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.views.generic import ListView
 from models import Game, Platform, Region
-from views import GameDetail, PlatformDetail, AccesoryDetail, RegionDetail, ReleaseDetail
+from views import *
 
 urlpatterns = [
     #List 5 newest games: /mygames/
@@ -57,10 +57,8 @@ urlpatterns = [
         ReleaseDetail.as_view(),
         name='release_detail'),
 
-    #to be contineud
-
+    # Create a restaurant review, ex.: /myrestaurants/restaurants/1/reviews/create/
+    url(r'^games/(?P<pk>\d+)/ratings/create/$',
+        rate,
+        name='rating_create')
 ]
-
-
-
-

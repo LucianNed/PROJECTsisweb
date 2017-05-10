@@ -64,10 +64,11 @@ class Release(models.Model):
 
 
 #2na practica
-#class UserRating(User):
-#    game = models.ForeignKey('Game', on_delete=models.CASCADE)
-#    RATING_CHOICES = ((0, 'zero'), (1, 'one'), (2, 'two'), (3, 'three'), (4, 'four'), (5, 'five'))
-#    rating = models.PositiveSmallIntegerField('Rating (stars)', blank=False, default=3, choices=RATING_CHOICES)
-#
-#    def __unicode__(self):
-#        return self.rating
+class GameRating(models.Model):
+    game = models.ForeignKey('Game', on_delete=models.CASCADE, related_name='rating_game')
+    user = models.ForeignKey(User, related_name='rating_user')
+    RATING_CHOICES = ((0, 'zero'), (1, 'one'), (2, 'two'), (3, 'three'), (4, 'four'), (5, 'five'))
+    rating = models.PositiveSmallIntegerField('Rating (stars)', blank=False, default=3, choices=RATING_CHOICES)
+
+    def __unicode__(self):
+        return str(self.rating)

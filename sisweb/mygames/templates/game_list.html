@@ -6,7 +6,7 @@
 </h1>  
 <ul>  
     {% for game in latest_game_list %}
-        <li><a href="{% url 'mygames:game_detail' game.game_id %}">
+    <li><a href="{% url 'mygames:game_detail' game.id %}">
             {{ game.game_name }}</a></li>
     {% empty %}<li>Sorry, no games registered yet.</li>
     {% endfor %}

@@ -12,6 +12,16 @@
 <p>
     publisher: {{ game.publisher }} <br/>
 </p>
+<p>rating: </p>
+<h3>Rate this game</h3>
+<form action="{% url 'mygames:rating_create' game.id %}" method="post">
+    <p>{% for rate in RATING_CHOICES %}
+        <input type="radio" name="rating" id="rating{{ forloop.counter }}" value="{{ rate.0 }}"/>
+        <label for="choice{{ forloop.counter }}">{{ rate.0 }} /5 </label>
+        <br/>{% endfor %}
+    </p>
+    <input type="submit" value="Rate"/>
+</form>
 
 {% endblock %}
 {% block footer %}
