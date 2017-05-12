@@ -12,9 +12,22 @@
 <p>
     publisher: {{ game.publisher }} <br/>
 </p>
-<p>rating: </p>
+<p> ratings:
+<ul>
+    {% for score in G_SCORE %}
+    <li>
+        {{ score.date }} score: {{ score.rating }}
+    </li>
+    {% empty %}
+    <li>
+        No ratings for this game yet, please Rate this game.
+    </li>
+    {% endfor %}
+</ul>
+</p>
 <h3>Rate this game</h3>
 <form action="{% url 'mygames:rating_create' game.id %}" method="post">
+    {% csrf_token %}
     <p>{% for rate in RATING_CHOICES %}
         <input type="radio" name="rating" id="rating{{ forloop.counter }}" value="{{ rate.0 }}"/>
         <label for="choice{{ forloop.counter }}">{{ rate.0 }} /5 </label>

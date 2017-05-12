@@ -5,12 +5,12 @@ from django.template import RequestContext
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import DetailView
-from models import Game, Platform, Accesory, Region, Release, GameRating
+from models import *
 from django.contrib.auth import authenticate
 from forms import *
 
 
-def homepage(request):
+def Homepage(request):
 
     return render(request, "base.html", {
         'info': 'Information about Video Games',
@@ -18,7 +18,7 @@ def homepage(request):
 
 
 @csrf_exempt
-def registerUser(request):
+def RegisterUser(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
@@ -32,17 +32,15 @@ def registerUser(request):
     return render_to_response('registration/register.html', {'form': form}, RequestContext(request))
 
 
-def rate(request, pk):
-    gam = get_object_or_404(Game, pk=pk)
+def RateGame(request, pk):
+    game_r = get_object_or_404(Game, pk=pk)
     user_r = request.user
-    game_rating = GameRating(
-        game=gam,
+    rating = GameScore(
+        rating=request.POST['rating'],
         user=user_r,
-        rating=request.POST['rating'])
-    game_rating.save()
-    return HttpResponse("OK")
-    # return HttpResponseRedirect('/mygames:/')
-
+        game=game_r, )
+    rating.save()
+    return HttpResponseRedirect(reverse('mygames:game_detail', args=(game_r.id,)))
 
 
 class GameDetail(DetailView):
@@ -51,7 +49,8 @@ class GameDetail(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(GameDetail, self).get_context_data(**kwargs)
-        context['RATING_CHOICES'] = GameRating.RATING_CHOICES
+        context['RATING_CHOICES'] = GameScore.RATING_CHOICES
+        context['G_SCORE'] = GameScore.objects.filter(game=self.kwargs.get('pk'))
         return context
 
 

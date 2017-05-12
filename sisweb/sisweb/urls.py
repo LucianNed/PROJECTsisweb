@@ -22,10 +22,10 @@ from mygames.views import *
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^mygames/', include('mygames.urls', namespace='mygames')),
-    url(r'^$', homepage),
+    url(r'^$', Homepage),
     url(r'^login/$', login, name='login'),
     url(r'^logout/$', logout, name='logout'),
-    url(r'^register/$', registerUser),
+    url(r'^register/$', RegisterUser),
 
 
 ]

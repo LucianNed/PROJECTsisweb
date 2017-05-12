@@ -14,7 +14,7 @@ class Game(models.Model):
     publisher = models.TextField()
 
     def __unicode__(self):
-        return self.game_name
+        return u"%s" % self.game_name
 
     def get_absolute_url(self):
         return reverse('mygames:game_detail', kwargs={'pk': self.pk})
@@ -26,7 +26,7 @@ class Platform(models.Model):
     games = models.ManyToManyField(Game)
 
     def __unicode__(self):
-        return self.platform_name
+        return u"%s" % self.platform_name
 
     def get_absolute_url(self):
         return reverse('mygames:platform_detail', kwargs={'pk': self.pk})
@@ -64,11 +64,30 @@ class Release(models.Model):
 
 
 #2na practica
-class GameRating(models.Model):
-    game = models.ForeignKey('Game', on_delete=models.CASCADE, related_name='rating_game')
-    user = models.ForeignKey(User, related_name='rating_user')
-    RATING_CHOICES = ((0, 'zero'), (1, 'one'), (2, 'two'), (3, 'three'), (4, 'four'), (5, 'five'))
-    rating = models.PositiveSmallIntegerField('Rating (stars)', blank=False, default=3, choices=RATING_CHOICES)
+class Score(models.Model):
+    RATING_CHOICES = ((0, 'zero'), (1, 'one'), (2, 'two'),
+                      (3, 'three'), (4, 'four'), (5, 'five'))
+    rating = models.PositiveSmallIntegerField('Rating (stars)',
+                                              blank=False, default=3, choices=RATING_CHOICES)
+    user = models.ForeignKey(User, default=1)
+    date = models.DateField(default=date.today)
 
-    def __unicode__(self):
-        return str(self.rating)
+    class Meta:
+        abstract = True
+
+
+class GameScore(Score):
+    game = models.ForeignKey(Game)
+
+
+class BestTitle(models.Model):
+    game = models.ForeignKey(Game)
+    user = models.ForeignKey(User, default=1)
+    date = models.DateField(default=date.today)
+
+    class Meta:
+        abstract = True
+
+
+class PlatformBestTitle(BestTitle):
+    platform = models.ForeignKey(Platform)
