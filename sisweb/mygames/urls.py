@@ -1,8 +1,11 @@
 from django.conf.urls import url
+from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
 from models import *
 from views import *
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.urlpatterns import format_suffix_patterns
+
 
 urlpatterns = [
     #List 5 newest games: /mygames/
@@ -63,3 +66,18 @@ urlpatterns = [
         csrf_exempt(RateGame),
         name='rating_create')
 ]
+
+# RESTful API
+urlpatterns += [
+    url(r'^api/games/$',
+        APIGameList.as_view(), name='game-list'),
+    url(r'^api/games/(?P<pk>\d+)/$',
+        APIGameDetail.as_view(), name='game-detail'),
+    url(r'^api/platforms/$',
+        login_required(APIPlatformList.as_view()), name='platform-list'),
+    url(r'^api/platforms/(?P<pk>\d+)/$',
+        APIPlatformDetail.as_view(), name='platform-detail'),
+]
+
+# Format suffixes
+urlpatterns = format_suffix_patterns(urlpatterns, allowed=['api', 'json', 'xml'])

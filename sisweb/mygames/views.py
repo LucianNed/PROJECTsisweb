@@ -1,13 +1,16 @@
 # Create your views here.
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response, render, get_object_or_404
 from django.template import RequestContext
-from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import DetailView
 from models import *
-from django.contrib.auth import authenticate
 from forms import *
+from serializers import *
+from rest_framework import generics
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.reverse import reverse
 
 
 def Homepage(request):
@@ -88,3 +91,28 @@ class ReleaseDetail(DetailView):
     def get_context_data(self, **kwargs):
         context = super(ReleaseDetail, self).get_context_data(**kwargs)
         return context
+
+
+# API
+class APIGameList(generics.ListCreateAPIView):
+    model = Game
+    queryset = Game.objects.all()
+    serializer_class = GameSerializer
+
+
+class APIGameDetail(generics.RetrieveUpdateDestroyAPIView):
+    model = Game
+    queryset = Game.objects.all()
+    serializer_class = GameSerializer
+
+
+class APIPlatformList(generics.ListCreateAPIView):
+    model = Platform
+    queryset = Platform.objects.all()
+    serializer_class = PlatformSerializer
+
+
+class APIPlatformDetail(generics.RetrieveUpdateDestroyAPIView):
+    model = Platform
+    queryset = Platform.objects.all()
+    serializer_class = PlatformSerializer
