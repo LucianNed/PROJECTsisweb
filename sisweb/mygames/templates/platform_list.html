@@ -5,7 +5,7 @@
 </h2>
 <ul>
     {% for platform in platform_list %}
-        <li><a href="{% url 'mygames:platform_detail' platform.platform_id %}">
+        <li><a href="{% url 'mygames:platform_detail' platform.id %}">
             {{ platform.platform_name }}</a></li>
     {% empty %}<li>Sorry, no platform registered yet.</li>
     {% endfor %}

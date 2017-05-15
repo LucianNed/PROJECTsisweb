@@ -9,7 +9,7 @@
 <h3>Games
 <ul>
     {% for game in P_GAMES %}
-        <li><a href="{% url 'mygames:game_detail' game.game_id %}">
+        <li><a href="{% url 'mygames:game_detail' game.id %}">
             {{ game.game_name }}</a>
             <p>developer: {{ game.developer }}</p>
         </li>
