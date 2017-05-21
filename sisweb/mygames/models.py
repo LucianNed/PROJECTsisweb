@@ -80,14 +80,10 @@ class GameScore(Score):
     game = models.ForeignKey(Game)
 
 
-class BestTitle(models.Model):
+class FavoriteGame(models.Model):
     game = models.ForeignKey(Game)
     user = models.ForeignKey(User, default=1)
-    date = models.DateField(default=date.today)
+    name = models.TextField(default="Pong")
 
-    class Meta:
-        abstract = True
-
-
-class PlatformBestTitle(BestTitle):
-    platform = models.ForeignKey(Platform)
+    def __unicode__(self):
+        return self.name

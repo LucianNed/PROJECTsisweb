@@ -46,6 +46,22 @@ def RateGame(request, pk):
     return HttpResponseRedirect(reverse('mygames:game_detail', args=(game_r.id,)))
 
 
+def UpdateGameRating(request, pk):
+    game_r = get_object_or_404(Game, pk=pk)
+    user_r = request.user
+    rating = request.POST['rating']
+    upd_rating = GameScore.objects.get(game=game_r, user=user_r)
+    upd_rating.rating = rating
+    upd_rating.save()
+
+
+def DeleteGameRating(request, pk):
+    game_r = get_object_or_404(Game, pk=pk)
+    user_r = request.user
+    rating = GameScore.objects.get(game=game_r, user=user_r)
+    rating.delete()
+
+
 class GameDetail(DetailView):
     model = Game
     template_name = 'game_detail.html'

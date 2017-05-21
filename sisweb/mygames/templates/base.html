@@ -1,17 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <script data-require="jquery@*" data-semver="2.2.0"
+            src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.js"></script>
+
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script>
+    $(function() {
+
+      $("#id_character").autocomplete({
+        source: function(request, response) {
+          $.ajax({
+            url: "http://thegamesdb.net/api/GetPlatformGames.php?platform=12",
+            dataType: "json",
+            data: {
+              nameStartsWith: request.term,
+              limit: 10,
+              apikey: "c71fcda3efd3a3e67d4b1878e138afe0"
+            },
+            success: function(data) {
+              console.log(data);
+              response($.map(data.data.results, function(item) {
+                return {
+                  label: item.name,
+                  value: item.name
+                }
+              }));
+            }
+          });
+        },
+        minLength: 5,
+        select: function(event, ui) {
+          if (ui.item) {}
+        }
+      });
+    });
+
+    </script>
+</head>
+
 <body>
 <div id="header">
     {% block header %}
     <div id="nav">
         {% if user.is_authenticated %}
-            welcome {{ user.username }}
-             <a href="/mygames/">games</a> |
-             (<a href="{% url 'logout' %}?next=/">logout</a>)
+        welcome {{ user.username }}
+        <a href="/mygames/">games</a> |
+        (<a href="{% url 'logout' %}?next=/">logout</a>)
         {% else %}
-            <a href="/">home</a> |
-            <a href="{% url 'login' %}?next={% firstof request.path '/' %}">login</a>
-            <a href="/register/">register</a>
+        <a href="/">home</a> |
+        <a href="{% url 'login' %}?next={% firstof request.path '/' %}">login</a>
+        <a href="/register/">register</a>
+        {% endif %}
+    </div>
+    <div>
+        {% if user.is_authenticated %}
+        <p> favorite game:
+            <input id="id_favorite"/> (autocomplete)
+        </p>
         {% endif %}
     </div>
     {% endblock %}
@@ -20,7 +69,7 @@
     {% block content %}
     <div style="margin-top: 10px;">
         {% if user.is_anonymous %}
-            {{ info }}
+        {{ info }}
         {% endif %}
     </div>
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
@@ -28,4 +77,5 @@
 </div>
 <div id="footer">{% block footer %}{% endblock %}</div>
 </body>
+
 </html>
