@@ -81,7 +81,6 @@ class GameScore(Score):
 
 
 class FavoriteGame(models.Model):
-    game = models.ForeignKey(Game)
     user = models.ForeignKey(User, default=1)
     name = models.TextField(default="Pong")
 

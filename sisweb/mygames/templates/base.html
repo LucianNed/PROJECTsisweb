@@ -1,36 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <script data-require="jquery@*" data-semver="2.2.0"
             src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.js"></script>
-
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script>
     $(function() {
 
-      $("#id_character").autocomplete({
+      $("#id_favorite").autocomplete({
         source: function(request, response) {
-          $.ajax({
-            url: "http://thegamesdb.net/api/GetPlatformGames.php?platform=12",
-            dataType: "json",
-            data: {
-              nameStartsWith: request.term,
-              limit: 10,
-              apikey: "c71fcda3efd3a3e67d4b1878e138afe0"
-            },
-            success: function(data) {
-              console.log(data);
-              response($.map(data.data.results, function(item) {
+	        var q = request.term
+	        $.ajax ({
+	          type: 'GET',
+	          dataType: 'jsonp',
+	          crossDomain: true,
+	          jsonp: 'json_callback',
+	          url: 'http://www.giantbomb.com/api/search/?format=jsonp&resources=game&api_key=0ae4d991335ede4f253f9b0be52b411098ff9e61&field_list=name&query=' + q ,
+	          complete: function() {
+	              console.log('done');
+	          },
+	          success: function(json) {
+              console.log(json.results);
+              response($.map(json.results, function(item) {
                 return {
                   label: item.name,
                   value: item.name
                 }
               }));
             }
-          });
+	        });
         },
         minLength: 5,
         select: function(event, ui) {
@@ -41,6 +41,7 @@
 
     </script>
 </head>
+
 
 <body>
 <div id="header">
@@ -58,9 +59,12 @@
     </div>
     <div>
         {% if user.is_authenticated %}
-        <p> favorite game:
-            <input id="id_favorite"/> (autocomplete)
-        </p>
+        <form method="POST" action="#" class="form-horizontal" id="applicationform" name="appform">
+            {% csrf_token %}
+            favorite game:
+            <input type="text" id="id_favorite" class="input-xlarge" name="favorite_game" value=" "/>(autocomplete)
+            <button type="submit" name="usubmit">save changes</button>
+        </form>
         {% endif %}
     </div>
     {% endblock %}

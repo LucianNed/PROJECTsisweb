@@ -13,8 +13,14 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
 
+@csrf_exempt
 def Homepage(request):
-
+    user_f = request.user
+    game_f = request.POST.get('favorite_game', "pong")
+    favorite = FavoriteGame(
+        user=user_f,
+        name=game_f, )
+    favorite.save()
     return render(request, "base.html", {
         'info': 'Information about Video Games',
         'user': request.user }, )
