@@ -28,7 +28,7 @@
 </ul>
 </p>
 
-<h3>SCORE: {{AVG_RATING}}<br/> </h3>
+<h3>SCORE: {{AVG_RATING.rating__avg}}<br/> </h3>
 
 <h3>Rate this game</h3>
 <form action="{% url 'mygames:rating_create' game.id %}" method="post">
