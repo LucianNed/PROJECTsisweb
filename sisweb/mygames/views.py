@@ -4,6 +4,7 @@ from django.shortcuts import render_to_response, render, get_object_or_404
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import DetailView
+from django.db.models import Avg
 from models import *
 from forms import *
 from serializers import *
@@ -76,6 +77,7 @@ class GameDetail(DetailView):
         context = super(GameDetail, self).get_context_data(**kwargs)
         context['RATING_CHOICES'] = GameScore.RATING_CHOICES
         context['G_SCORE'] = GameScore.objects.filter(game=self.kwargs.get('pk'))
+        context['AVG_RATING'] = GameScore.objects.filter(game=self.kwargs.get('pk')).aggregate(Avg('rating'))
         return context
 
 
