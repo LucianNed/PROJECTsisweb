@@ -48,22 +48,28 @@
     {% block header %}
     <div id="nav">
         {% if user.is_authenticated %}
-        welcome {{ user.username }}
-        <a href="/mygames/">games</a> |
+        welcome {{ user.username }} |
         (<a href="{% url 'logout' %}?next=/">logout</a>)
         {% else %}
-        <a href="/">home</a> |
+        <a href="/">home</a>
         <a href="{% url 'login' %}?next={% firstof request.path '/' %}">login</a>
         <a href="/register/">register</a>
         {% endif %}
     </div>
+    <p>
+        {% if user.is_authenticated %}
+        <a href="/mygames/">games</a>
+        <a href="/mygames/platforms">platforms</a>
+        <a href="/mygames/regions">regions</a>
+        {% endif %}
+    </p>
     <div>
         {% if user.is_authenticated %}
-        <form method="POST" action="#" class="form-horizontal" id="applicationform" name="appform">
+        <form method="POST" id="applicationform" name="appform">
             {% csrf_token %}
             favorite game:
-            <input type="text" id="id_favorite" class="input-xlarge" name="favorite_game" value=" "/>(autocomplete)
-            <button type="submit" name="usubmit">save changes</button>
+            <input type="text" id="id_favorite" class="input-xlarge" name="favorite_game" value=""/> (autocomplete)
+            <button type="submit" name="usubmit"> save</button>
         </form>
         {% endif %}
     </div>

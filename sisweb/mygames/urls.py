@@ -36,7 +36,7 @@ urlpatterns = [
         name='platform_detail'
         ),
 
-    # accessories details /mygames/accessories/1/games
+    # accessories details /mygames/accessories/1
     url(r'^accessories/(?P<pk>\d+)/$',
         AccesoryDetail.as_view(),
            name = 'accesory_detail'),
@@ -56,7 +56,7 @@ urlpatterns = [
         name='region_detail'
         ),
 
-    # releases details /mygames/releases/1/games
+    # releases details /mygames/releases/1
     url(r'^releases/(?P<pk>\d+)/$',
         ReleaseDetail.as_view(),
         name='release_detail'),
@@ -77,6 +77,26 @@ urlpatterns += [
         login_required(APIPlatformList.as_view()), name='platform-list'),
     url(r'^api/platforms/(?P<pk>\d+)/$',
         APIPlatformDetail.as_view(), name='platform-detail'),
+    url(r'^api/accesories/$',
+        login_required(APIAccesoryList.as_view()), name='accesory-list'),
+    url(r'^api/accesories/(?P<pk>\d+)/$',
+        APIAccesoryDetail.as_view(), name='accesory-detail'),
+    url(r'^api/regions/$',
+        login_required(APIRegionList.as_view()), name='region-list'),
+    url(r'^api/regions/(?P<pk>\d+)/$',
+        APIRegionDetail.as_view(), name='region-detail'),
+    url(r'^api/gamescores/$',
+        login_required(APIGamescoreList.as_view()), name='gamescore-list'),
+    url(r'^api/gamescores/(?P<pk>\d+)/$',
+        APIGamescoreDetail.as_view(), name='gamescore-detail'),
+    url(r'^api/favorites/$',
+        login_required(APIFavoriteList.as_view()), name='favoritegame-list'),
+    url(r'^api/favorites/(?P<pk>\d+)/$',
+        APIFavoriteDetail.as_view(), name='favoritegame-detail'),
+    url(r'^api/releases/$',
+        login_required(APIReleaseList.as_view()), name='release-list'),
+    url(r'^api/releases/(?P<pk>\d+)/$',
+        APIReleaseDetail.as_view(), name='release-detail'),
 ]
 
 # Format suffixes

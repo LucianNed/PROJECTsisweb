@@ -83,6 +83,8 @@ class GameScore(Score):
 class FavoriteGame(models.Model):
     user = models.ForeignKey(User, default=1)
     name = models.TextField(default="Pong")
+    created = models.DateField(default=date.today)
+    updated = models.DateField(blank=True, null=True)
 
     def __unicode__(self):
         return self.name

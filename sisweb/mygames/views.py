@@ -16,12 +16,17 @@ from rest_framework.reverse import reverse
 
 @csrf_exempt
 def Homepage(request):
-    user_f = request.user
-    game_f = request.POST.get('favorite_game', "pong")
-    favorite = FavoriteGame(
-        user=user_f,
-        name=game_f, )
-    favorite.save()
+    if request.method == 'POST':
+        user_f = request.user
+        game_r = FavoriteGame.objects.filter(user=user_f)
+        game_f = request.POST.get('favorite_game', "pong")
+        if len(game_r) == 0:
+            favorite = FavoriteGame(
+                user=user_f,
+                name=game_f, )
+            favorite.save()
+        else:
+            game_r.update(name=game_f, updated=date.today())
     return render(request, "base.html", {
         'info': 'Information about Video Games',
         'user': request.user }, )
@@ -91,6 +96,7 @@ class PlatformDetail(DetailView):
         context['P_ACCESSORIES'] = Accesory.objects.filter(platform=self.kwargs.get('pk'))
         return context
 
+
 class AccesoryDetail(DetailView):
     model = Accesory
     template_name = 'accesory_detail.html'
@@ -108,6 +114,7 @@ class RegionDetail(DetailView):
         context = super(RegionDetail, self).get_context_data(**kwargs)
         return context
 
+
 class ReleaseDetail(DetailView):
     model = Release
     template_name = 'release_detail.html'
@@ -118,25 +125,85 @@ class ReleaseDetail(DetailView):
 
 
 # API
-class APIGameList(generics.ListCreateAPIView):
+class APIGameList(generics.ListAPIView):
     model = Game
     queryset = Game.objects.all()
     serializer_class = GameSerializer
 
 
-class APIGameDetail(generics.RetrieveUpdateDestroyAPIView):
+class APIGameDetail(generics.RetrieveAPIView):
     model = Game
     queryset = Game.objects.all()
     serializer_class = GameSerializer
 
 
-class APIPlatformList(generics.ListCreateAPIView):
+class APIPlatformList(generics.ListAPIView):
     model = Platform
     queryset = Platform.objects.all()
     serializer_class = PlatformSerializer
 
 
-class APIPlatformDetail(generics.RetrieveUpdateDestroyAPIView):
+class APIPlatformDetail(generics.RetrieveAPIView):
     model = Platform
     queryset = Platform.objects.all()
     serializer_class = PlatformSerializer
+
+
+class APIRegionList(generics.ListAPIView):
+    model = Region
+    queryset = Region.objects.all()
+    serializer_class = RegionSerializer
+
+
+class APIRegionDetail(generics.RetrieveAPIView):
+    model = Region
+    queryset = Region.objects.all()
+    serializer_class = RegionSerializer
+
+
+class APIAccesoryList(generics.ListAPIView):
+    model = Accesory
+    queryset = Accesory.objects.all()
+    serializer_class = AccesorySerializer
+
+
+class APIAccesoryDetail(generics.RetrieveAPIView):
+    model = Accesory
+    queryset = Accesory.objects.all()
+    serializer_class = AccesorySerializer
+
+
+class APIGamescoreList(generics.ListCreateAPIView):
+    model = GameScore
+    queryset = GameScore.objects.all()
+    serializer_class = GamescoreSerializer
+
+
+class APIGamescoreDetail(generics.RetrieveUpdateDestroyAPIView):
+    model = GameScore
+    queryset = GameScore.objects.all()
+    serializer_class = GamescoreSerializer
+
+
+class APIFavoriteList(generics.ListCreateAPIView):
+    model = FavoriteGame
+    queryset = FavoriteGame.objects.all()
+    serializer_class = FavoriteSerializer
+
+
+class APIFavoriteDetail(generics.RetrieveUpdateDestroyAPIView):
+    model = FavoriteGame
+    queryset = FavoriteGame.objects.all()
+    serializer_class = FavoriteSerializer
+
+
+class APIReleaseList(generics.ListAPIView):
+    model = Release
+    queryset = Release.objects.all()
+    serializer_class = ReleaseSerializer
+
+
+class APIReleaseDetail(generics.RetrieveAPIView):
+    model = Release
+    queryset = Release.objects.all()
+    serializer_class = ReleaseSerializer
