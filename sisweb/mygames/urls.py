@@ -64,7 +64,13 @@ urlpatterns = [
     # give a game a rating, ex.: /mygames/games/1/ratings/create/
     url(r'^games/(?P<pk>\d+)/ratings/create/$',
         csrf_exempt(RateGame),
-        name='rating_create')
+        name='rating_create'),
+
+    # delete a game rating, ex.: /mygames/games/1/ratings/delete/
+    url(r'^games/(?P<pk>\d+)/ratings/delete/$',
+        csrf_exempt(DeleteRating),
+        name='rating_delete')
+
 ]
 
 # RESTful API

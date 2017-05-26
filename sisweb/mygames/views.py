@@ -48,30 +48,25 @@ def RegisterUser(request):
 
 
 def RateGame(request, pk):
-    game_r = get_object_or_404(Game, pk=pk)
     user_r = request.user
-    rating = GameScore(
-        rating=request.POST['rating'],
-        user=user_r,
-        game=game_r, )
-    rating.save()
+    game_r = get_object_or_404(Game, pk=pk)
+    rate_f = GameScore.objects.filter(user=user_r)
+    if len(rate_f) == 0:
+        rating = GameScore(
+            rating=request.POST['rating'],
+            user=user_r,
+            game=game_r, )
+        rating.save()
+    else:
+        rate_f.update(rating=request.POST['rating'], date=date.today())
     return HttpResponseRedirect(reverse('mygames:game_detail', args=(game_r.id,)))
 
 
-def UpdateGameRating(request, pk):
-    game_r = get_object_or_404(Game, pk=pk)
-    user_r = request.user
-    rating = request.POST['rating']
-    upd_rating = GameScore.objects.get(game=game_r, user=user_r)
-    upd_rating.rating = rating
-    upd_rating.save()
-
-
-def DeleteGameRating(request, pk):
-    game_r = get_object_or_404(Game, pk=pk)
-    user_r = request.user
-    rating = GameScore.objects.get(game=game_r, user=user_r)
+def DeleteRating(request, pk):
+    rating = GameScore.objects.get(id=pk)
+    game_r = rating.game
     rating.delete()
+    return HttpResponseRedirect(reverse('mygames:game_detail', args=(game_r.id,)))
 
 
 class GameDetail(DetailView):

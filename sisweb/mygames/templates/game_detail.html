@@ -17,8 +17,12 @@
     {% for score in G_SCORE %}
     <li>
         {{ score.date }} score: {{ score.rating }}
+        {% if user == score.user %}
+        <button>
+            <a href="{% url 'mygames:rating_delete' score.id %}"> Delete </a>
+        </button>
+        {% endif %}
     </li>
-
 
     {% empty %}
     <li>
