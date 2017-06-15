@@ -37,12 +37,14 @@
         <p>Date: <span property="datePublished">{{ score.date}}</span></p>
         <p rel="reviewRating" typeof="Rating">
             - Score: <span property="ratingValue">{{ score.rating }}</span> star{{ score.rating|pluralize }}
-            {% if user == score.user %}
-                <button>
-                    <a href="{% url 'mygames:rating_delete' score.id %}"> Delete </a>
-                </button>
-            {% endif %}
         <p>Created by <span property="author">{{ score.user }}</span></p>
+
+        {% if user == score.user %}
+            <button>
+                <a href="{% url 'mygames:rating_delete' score.id %}"> Delete </a>
+            </button>
+        {% endif %}
+
         {% empty %}
         <p>
             No ratings for this game yet, please Rate this game.
