@@ -78,6 +78,7 @@ class GameDetail(DetailView):
         context['RATING_CHOICES'] = GameScore.RATING_CHOICES
         context['G_SCORE'] = GameScore.objects.filter(game=self.kwargs.get('pk'))
         context['AVG_RATING'] = GameScore.objects.filter(game=self.kwargs.get('pk')).aggregate(Avg('rating'))
+        context['COUNT_RATING'] = GameScore.objects.filter(game=self.kwargs.get('pk')).count()
         return context
 
 
